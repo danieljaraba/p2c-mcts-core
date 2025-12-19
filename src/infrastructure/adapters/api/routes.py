@@ -137,7 +137,9 @@ async def mcts_search(request: MCTSSearchRequest) -> MCTSSearchResponse:
     except HTTPException:
         raise
     except Exception as e:
+        # Log the error internally (in production, use proper logging)
+        print(f"MCTS search error: {e}")
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"MCTS search failed: {str(e)}",
+            detail="MCTS search failed. Please check your request and try again.",
         )

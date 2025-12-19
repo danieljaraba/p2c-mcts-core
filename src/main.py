@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
+from src.config import settings
 from src.infrastructure.adapters.api.routes import router
 
 
@@ -28,13 +29,14 @@ def create_app() -> FastAPI:
         lifespan=lifespan,
     )
 
-    # CORS middleware
+    # CORS middleware - configure allowed origins via environment variables
+    # In production, set specific allowed origins instead of using wildcard
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],  # In production, specify allowed origins
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_origins=settings.cors_origins,
+        allow_credentials=settings.cors_credentials,
+        allow_methods=settings.cors_methods,
+        allow_headers=settings.cors_headers,
     )
 
     # Include routers
@@ -43,9 +45,12 @@ def create_app() -> FastAPI:
     # Global exception handler
     @app.exception_handler(Exception)
     async def global_exception_handler(request, exc):
+        # Log the full error internally (in production, use proper logging)
+        print(f"Internal error: {exc}")
+        # Return generic error message to client
         return JSONResponse(
             status_code=500,
-            content={"error": "Internal server error", "detail": str(exc)},
+            content={"error": "Internal server error", "detail": "An unexpected error occurred"},
         )
 
     return app

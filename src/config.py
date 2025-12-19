@@ -1,9 +1,14 @@
 """Application configuration."""
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class Settings(BaseSettings):
     """Application settings."""
+
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        env_file_encoding="utf-8"
+    )
 
     # API Settings
     api_title: str = "P2C MCTS Core"
@@ -25,11 +30,6 @@ class Settings(BaseSettings):
     default_simulations: int = 100
     default_exploration_weight: float = 1.41
     max_simulations: int = 10000
-    
-    class Config:
-        """Pydantic config."""
-        env_file = ".env"
-        env_file_encoding = "utf-8"
 
 
 settings = Settings()

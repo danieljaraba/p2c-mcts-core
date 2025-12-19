@@ -10,14 +10,19 @@ from src.domain.entities.mcts_node import MCTSNode
 class MCTSService(MCTSServicePort):
     """Implementation of Monte Carlo Tree Search algorithm."""
 
-    def __init__(self, exploration_weight: float = 1.41):
+    # Default maximum depth for simulation to prevent infinite loops
+    DEFAULT_MAX_SIMULATION_DEPTH = 100
+
+    def __init__(self, exploration_weight: float = 1.41, max_simulation_depth: int = DEFAULT_MAX_SIMULATION_DEPTH):
         """
         Initialize MCTS service.
 
         Args:
             exploration_weight: UCB1 exploration parameter (default sqrt(2))
+            max_simulation_depth: Maximum depth for simulation phase
         """
         self.exploration_weight = exploration_weight
+        self.max_simulation_depth = max_simulation_depth
         self.root: Optional[MCTSNode] = None
 
     def search(
@@ -125,9 +130,8 @@ class MCTSService(MCTSServicePort):
         current_state = node.state
         total_reward = 0.0
         depth = 0
-        max_depth = 100  # Prevent infinite loops
 
-        while not current_state.is_terminal and depth < max_depth:
+        while not current_state.is_terminal and depth < self.max_simulation_depth:
             available_actions = mdp.get_available_actions(current_state)
             if not available_actions:
                 break
