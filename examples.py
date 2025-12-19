@@ -1,137 +1,202 @@
-"""Example usage of MCTS with MDP."""
-from src.application.use_cases.mcts_service import MCTSService
-from src.domain.entities.mdp import Action, MDP, State, Transition
+"""Example usage of MCTS for Path of Exile 2 crafting optimization."""
+from src.application.use_cases.crafting_mcts_service import CraftingMCTSService
+from src.domain.entities.crafting import (
+    CraftingGoal,
+    ItemState,
+    Rarity,
+    RewardSystem,
+)
+from src.infrastructure.config_loader import config_loader
 
 
-def simple_grid_world_example():
-    """Example: Simple 2x2 grid world navigation."""
-    print("=" * 60)
-    print("MCTS Example: Simple Grid World Navigation")
-    print("=" * 60)
+def chest_armour_crafting_example():
+    """Example: Craft a chest armour with life and resistance."""
+    print("=" * 70)
+    print("Path of Exile 2 - MCTS Crafting Example: Chest Armour")
+    print("=" * 70)
 
-    # Define states (positions in grid)
-    s_start = State(id="0,0", data={"x": 0, "y": 0}, is_terminal=False)
-    s_middle1 = State(id="1,0", data={"x": 1, "y": 0}, is_terminal=False)
-    s_middle2 = State(id="0,1", data={"x": 0, "y": 1}, is_terminal=False)
-    s_goal = State(id="1,1", data={"x": 1, "y": 1}, is_terminal=True)
-
-    # Define actions
-    move_right = Action(id="right", name="Move Right")
-    move_down = Action(id="down", name="Move Down")
-    move_up = Action(id="up", name="Move Up")
-    move_left = Action(id="left", name="Move Left")
-
-    # Create MDP
-    mdp = MDP(
-        states=[s_start, s_middle1, s_middle2, s_goal],
-        actions=[move_right, move_down, move_up, move_left],
-        initial_state=s_start,
-        gamma=0.95,
+    # Initial state - a normal chest armour
+    initial_state = ItemState(
+        itemType="chest_armour",
+        itemLevel=86,
+        rarity=Rarity.NORMAL,
+        modifiers=[],
+        influence=None,
+        baseStats={"armour": 100},
     )
 
-    # Add transitions with rewards
-    # From start (0,0)
-    mdp.add_transition(Transition(s_start, move_right, s_middle1, reward=-1.0))
-    mdp.add_transition(Transition(s_start, move_down, s_middle2, reward=-1.0))
+    # Goal - get max life and fire resistance
+    goal = CraftingGoal(
+        goalType="partial",
+        targetModifiers=[
+            {"modifierId": "max_life", "tier": 3, "weight": 1.5},
+            {"modifierId": "fire_resistance", "tier": 3, "weight": 1.0},
+            {"modifierId": "cold_resistance", "tier": 2, "weight": 0.8},
+        ],
+        baseItem={
+            "itemType": "chest_armour",
+            "itemLevel": 86,
+            "influence": None,
+        },
+        constraints={"maxSteps": 15, "budgetLimit": 100.0},
+    )
 
-    # From middle1 (1,0)
-    mdp.add_transition(Transition(s_middle1, move_down, s_goal, reward=100.0))
-    mdp.add_transition(Transition(s_middle1, move_left, s_start, reward=-1.0))
+    # Reward system
+    reward_system = RewardSystem(
+        rewardType="heuristic",
+        scoringFunction={
+            "modifierWeights": {
+                "max_life": 1.5,
+                "fire_resistance": 1.0,
+                "cold_resistance": 0.8,
+            },
+            "penaltyForUnwantedMods": -0.3,
+            "progressBonus": 0.0,
+        },
+        terminalReward={"successValue": 200.0, "failureValue": -20.0},
+    )
 
-    # From middle2 (0,1)
-    mdp.add_transition(Transition(s_middle2, move_right, s_goal, reward=100.0))
-    mdp.add_transition(Transition(s_middle2, move_up, s_start, reward=-1.0))
+    # Get available crafting actions
+    available_actions = [
+        config_loader.create_crafting_action(currency)
+        for currency in config_loader.get_all_currencies()
+    ]
 
-    print("\nMDP Configuration:")
-    print(f"  States: {len(mdp.states)}")
-    print(f"  Actions: {len(mdp.actions)}")
-    print(f"  Transitions: {len(mdp.transitions)}")
-    print(f"  Initial State: {mdp.initial_state.id}")
-    print(f"  Discount Factor (gamma): {mdp.gamma}")
+    print("\nCrafting Setup:")
+    print(f"  Base Item: {initial_state.itemType} (iLvl {initial_state.itemLevel})")
+    print(f"  Initial Rarity: {initial_state.rarity.value}")
+    print(f"\nGoal:")
+    print(f"  Type: {goal.goalType}")
+    print(f"  Target Modifiers:")
+    for target in goal.targetModifiers:
+        print(f"    - {target['modifierId']} (tier {target['tier']}, weight {target['weight']})")
+    print(f"  Constraints:")
+    print(f"    Max Steps: {goal.constraints['maxSteps']}")
+    print(f"    Budget: {goal.constraints['budgetLimit']} chaos")
+
+    print(f"\n  Available Currency Types: {len(available_actions)}")
 
     # Run MCTS
-    print("\nRunning MCTS...")
-    service = MCTSService(exploration_weight=1.41)
-    num_simulations = 500
-    best_action = service.search(mdp, s_start, num_simulations)
+    print("\nRunning MCTS optimization (500 simulations)...")
+    service = CraftingMCTSService(exploration_weight=1.41, max_simulation_depth=15)
+
+    best_action = service.search(
+        initial_state=initial_state,
+        goal=goal,
+        reward_system=reward_system,
+        available_actions=available_actions,
+        num_simulations=500,
+    )
 
     # Display results
-    print(f"\nMCTS Results ({num_simulations} simulations):")
+    print("\nOptimization Results:")
     if best_action:
-        print(f"  Best Action: {best_action.name} (ID: {best_action.id})")
+        print(f"  Recommended First Step: {best_action.name}")
+        print(f"    Action ID: {best_action.actionId}")
+        print(f"    Cost: {best_action.cost} chaos")
+        print(f"    Type: {best_action.actionType}")
     else:
-        print("  No action found (terminal state?)")
+        print("  No optimal action found")
 
-    # Display search tree statistics
     if service.root:
-        print(f"\nSearch Tree Statistics:")
-        print(f"  Root visits: {service.root.visits}")
-        print(f"  Root value: {service.root.value:.2f}")
-        print(f"  Number of children: {len(service.root.children)}")
+        print(f"\n  Search Tree Statistics:")
+        print(f"    Total Simulations: {service.root.visits}")
+        print(f"    Total Value: {service.root.value:.2f}")
+        print(f"    Average Value: {service.root.value / service.root.visits:.2f}")
+        print(f"    Branches Explored: {len(service.root.children)}")
 
         if service.root.children:
-            print("\n  Child nodes:")
-            for child in service.root.children:
+            print(f"\n  Top 5 Actions by Visit Count:")
+            sorted_children = sorted(
+                service.root.children, key=lambda c: c.visits, reverse=True
+            )[:5]
+            for i, child in enumerate(sorted_children, 1):
                 avg_value = child.value / child.visits if child.visits > 0 else 0
+                confidence = child.visits / service.root.visits
                 print(
-                    f"    Action: {child.action.name:12} | "
-                    f"Visits: {child.visits:4} | "
-                    f"Total Value: {child.value:8.2f} | "
-                    f"Avg Value: {avg_value:6.2f}"
+                    f"    {i}. {child.action.name:25} | "
+                    f"Visits: {child.visits:4} ({confidence:5.1%}) | "
+                    f"Avg Reward: {avg_value:7.2f} | "
+                    f"Cost: {child.action.cost:5.2f}"
                 )
 
-    print("\n" + "=" * 60)
+    print("\n" + "=" * 70)
 
 
-def decision_problem_example():
-    """Example: Simple decision problem with two choices."""
-    print("\n" + "=" * 60)
-    print("MCTS Example: Simple Decision Problem")
-    print("=" * 60)
+def weapon_crafting_example():
+    """Example: Craft a one-hand sword for physical damage."""
+    print("\n" + "=" * 70)
+    print("Path of Exile 2 - MCTS Crafting Example: Physical Weapon")
+    print("=" * 70)
 
-    # States
-    s_initial = State(id="initial", is_terminal=False)
-    s_good = State(id="good_outcome", is_terminal=True)
-    s_bad = State(id="bad_outcome", is_terminal=True)
-
-    # Actions
-    a_risky = Action(id="risky", name="Risky Choice")
-    a_safe = Action(id="safe", name="Safe Choice")
-
-    # Create MDP
-    mdp = MDP(
-        states=[s_initial, s_good, s_bad],
-        actions=[a_risky, a_safe],
-        initial_state=s_initial,
-        gamma=1.0,  # No discount for single-step problem
+    # Initial state
+    initial_state = ItemState(
+        itemType="one_hand_sword",
+        itemLevel=75,
+        rarity=Rarity.NORMAL,
+        modifiers=[],
+        baseStats={"physicalDamageMin": 15, "physicalDamageMax": 30},
     )
 
-    # Risky choice: high reward but uncertain
-    mdp.add_transition(Transition(s_initial, a_risky, s_good, reward=100.0))
-    
-    # Safe choice: moderate reward
-    mdp.add_transition(Transition(s_initial, a_safe, s_good, reward=50.0))
+    # Goal - maximize physical damage
+    goal = CraftingGoal(
+        goalType="score-based",
+        targetModifiers=[
+            {"modifierId": "physical_damage", "tier": 3, "weight": 2.0},
+            {"modifierId": "attack_speed", "tier": 2, "weight": 1.5},
+        ],
+        baseItem={
+            "itemType": "one_hand_sword",
+            "itemLevel": 75,
+            "influence": None,
+        },
+        constraints={"maxSteps": 10, "budgetLimit": 50.0},
+    )
 
-    print("\nProblem: Choose between risky (reward=100) and safe (reward=50)")
+    # Reward system
+    reward_system = RewardSystem(
+        rewardType="heuristic",
+        scoringFunction={
+            "modifierWeights": {
+                "physical_damage": 2.0,
+                "attack_speed": 1.5,
+            },
+            "penaltyForUnwantedMods": -0.5,
+        },
+    )
 
-    # Run MCTS
-    service = MCTSService(exploration_weight=1.0)
-    num_simulations = 200
-    best_action = service.search(mdp, s_initial, num_simulations)
+    # Get available actions
+    available_actions = [
+        config_loader.create_crafting_action(currency)
+        for currency in config_loader.get_all_currencies()
+    ]
 
-    print(f"\nMCTS Recommendation ({num_simulations} simulations):")
+    print(f"\nBase: {initial_state.itemType} (iLvl {initial_state.itemLevel})")
+    print(f"Goal: Physical damage weapon")
+    print(f"Budget: {goal.constraints['budgetLimit']} chaos\n")
+
+    # Run optimization
+    print("Running MCTS (300 simulations)...")
+    service = CraftingMCTSService(exploration_weight=1.2)
+    best_action = service.search(
+        initial_state, goal, reward_system, available_actions, 300
+    )
+
     if best_action:
-        print(f"  Recommended Action: {best_action.name}")
+        print(f"\nRecommended: {best_action.name} ({best_action.cost} chaos)")
     
-    print("\n" + "=" * 60)
+    print("\n" + "=" * 70)
 
 
 if __name__ == "__main__":
     # Run examples
-    simple_grid_world_example()
-    decision_problem_example()
-    
+    chest_armour_crafting_example()
+    weapon_crafting_example()
+
     print("\n✓ Examples completed successfully!")
-    print("\nTo run the API server, use:")
+    print("\nTo run the API server:")
     print("  python -m src.main")
-    print("\nThen visit http://localhost:8000/docs for interactive API documentation")
+    print("\nThen visit:")
+    print("  http://localhost:8000/docs  (API documentation)")
+    print("  http://localhost:8000/health  (Health check)")
+
