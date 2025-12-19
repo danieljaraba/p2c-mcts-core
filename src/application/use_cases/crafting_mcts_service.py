@@ -142,7 +142,8 @@ class CraftingMCTSService:
             total_reward += reward
             step_cost += action.cost
 
-            # Check budget constraint
+            # Check budget constraint for this simulation path
+            # step_cost accumulates cost within this rollout simulation
             if self.goal and self.goal.constraints.get("budgetLimit"):
                 if step_cost >= self.goal.constraints["budgetLimit"]:
                     next_state.is_terminal = True

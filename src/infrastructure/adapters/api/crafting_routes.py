@@ -117,7 +117,7 @@ async def optimize_crafting(request: OptimizeRequest) -> OptimizeResponse:
                     name=action.name,
                     cost=action.cost,
                     deterministic=action.effects.deterministic,
-                    prerequisites=action.prerequisites.model_dump(),
+                    prerequisites=action.prerequisites.model_dump() if action.prerequisites else {},
                 )
                 for action in request.actions
             ]

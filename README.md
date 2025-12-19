@@ -207,8 +207,8 @@ seek-client-manager/
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/danieljaraba/seek-client-manager. git
-cd seek-client-manager
+git clone https://github.com/danieljaraba/p2c-mcts-core.git
+cd p2c-mcts-core
 ```
 
 2. Create a virtual environment:
@@ -330,4 +330,4 @@ This project is licensed under the MIT License.
 
 Daniel Jaraba - [@danieljaraba](https://github.com/danieljaraba)
 
-Project Link: [https://github.com/danieljaraba/seek-client-manager](https://github.com/danieljaraba/seek-client-manager)
+Project Link: [https://github.com/danieljaraba/p2c-mcts-core](https://github.com/danieljaraba/p2c-mcts-core)
