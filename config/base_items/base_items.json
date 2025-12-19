@@ -1,0 +1,141 @@
+{
+  "baseItems": [
+    {
+      "itemType": "chest_armour",
+      "name": "Plate Vest",
+      "category": "armour",
+      "baseStats": {
+        "armour": 100,
+        "evasion": 0,
+        "energyShield": 0
+      },
+      "requiredLevel": 28,
+      "maxSockets": 6,
+      "implicitMods": []
+    },
+    {
+      "itemType": "chest_evasion",
+      "name": "Leather Tunic",
+      "category": "armour",
+      "baseStats": {
+        "armour": 0,
+        "evasion": 120,
+        "energyShield": 0
+      },
+      "requiredLevel": 25,
+      "maxSockets": 6,
+      "implicitMods": []
+    },
+    {
+      "itemType": "chest_energy_shield",
+      "name": "Simple Robe",
+      "category": "armour",
+      "baseStats": {
+        "armour": 0,
+        "evasion": 0,
+        "energyShield": 50
+      },
+      "requiredLevel": 23,
+      "maxSockets": 6,
+      "implicitMods": []
+    },
+    {
+      "itemType": "one_hand_sword",
+      "name": "Gladius",
+      "category": "weapon",
+      "baseStats": {
+        "physicalDamageMin": 15,
+        "physicalDamageMax": 30,
+        "attacksPerSecond": 1.5
+      },
+      "requiredLevel": 30,
+      "maxSockets": 3,
+      "implicitMods": []
+    },
+    {
+      "itemType": "two_hand_sword",
+      "name": "Vaal Greatsword",
+      "category": "weapon",
+      "baseStats": {
+        "physicalDamageMin": 40,
+        "physicalDamageMax": 75,
+        "attacksPerSecond": 1.2
+      },
+      "requiredLevel": 50,
+      "maxSockets": 6,
+      "implicitMods": []
+    },
+    {
+      "itemType": "bow",
+      "name": "Short Bow",
+      "category": "weapon",
+      "baseStats": {
+        "physicalDamageMin": 10,
+        "physicalDamageMax": 25,
+        "attacksPerSecond": 1.4
+      },
+      "requiredLevel": 20,
+      "maxSockets": 6,
+      "implicitMods": []
+    },
+    {
+      "itemType": "helmet",
+      "name": "Iron Hat",
+      "category": "armour",
+      "baseStats": {
+        "armour": 60,
+        "evasion": 0,
+        "energyShield": 0
+      },
+      "requiredLevel": 20,
+      "maxSockets": 4,
+      "implicitMods": []
+    },
+    {
+      "itemType": "gloves",
+      "name": "Iron Gauntlets",
+      "category": "armour",
+      "baseStats": {
+        "armour": 40,
+        "evasion": 0,
+        "energyShield": 0
+      },
+      "requiredLevel": 15,
+      "maxSockets": 4,
+      "implicitMods": []
+    },
+    {
+      "itemType": "boots",
+      "name": "Iron Greaves",
+      "category": "armour",
+      "baseStats": {
+        "armour": 35,
+        "evasion": 0,
+        "energyShield": 0
+      },
+      "requiredLevel": 12,
+      "maxSockets": 4,
+      "implicitMods": []
+    },
+    {
+      "itemType": "ring",
+      "name": "Iron Ring",
+      "category": "jewelry",
+      "baseStats": {},
+      "requiredLevel": 1,
+      "maxSockets": 0,
+      "implicitMods": [
+        {"modifierId": "physical_damage", "tier": 1}
+      ]
+    },
+    {
+      "itemType": "amulet",
+      "name": "Amber Amulet",
+      "category": "jewelry",
+      "baseStats": {},
+      "requiredLevel": 1,
+      "maxSockets": 0,
+      "implicitMods": []
+    }
+  ]
+}

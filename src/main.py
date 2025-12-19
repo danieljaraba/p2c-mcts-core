@@ -7,24 +7,24 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 
 from src.config import settings
-from src.infrastructure.adapters.api.routes import router
+from src.infrastructure.adapters.api.crafting_routes import router as crafting_router
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI) -> AsyncGenerator:
     """Application lifespan manager."""
     # Startup
-    print("Starting MCTS Core microservice...")
+    print("Starting Path of Exile 2 MCTS Crafting Core microservice...")
     yield
     # Shutdown
-    print("Shutting down MCTS Core microservice...")
+    print("Shutting down Path of Exile 2 MCTS Crafting Core microservice...")
 
 
 def create_app() -> FastAPI:
     """Create and configure FastAPI application."""
     app = FastAPI(
-        title="P2C MCTS Core",
-        description="Monte Carlo Tree Search algorithm with MDP using Hexagonal Architecture",
+        title="Path of Exile 2 - MCTS Crafting Core",
+        description="Monte Carlo Tree Search for Path of Exile 2 crafting optimization",
         version="0.1.0",
         lifespan=lifespan,
     )
@@ -39,8 +39,8 @@ def create_app() -> FastAPI:
         allow_headers=settings.cors_headers,
     )
 
-    # Include routers
-    app.include_router(router, prefix="/api/v1", tags=["MCTS"])
+    # Include crafting routes
+    app.include_router(crafting_router, tags=["Crafting"])
 
     # Global exception handler
     @app.exception_handler(Exception)

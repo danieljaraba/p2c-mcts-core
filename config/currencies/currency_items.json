@@ -1,0 +1,228 @@
+{
+  "currencies": [
+    {
+      "actionId": "chaos_orb",
+      "actionType": "currency",
+      "name": "Chaos Orb",
+      "description": "Reforges a rare item with new random modifiers",
+      "cost": 1.5,
+      "effects": {
+        "deterministic": false,
+        "outcomes": [
+          {
+            "probability": 1.0,
+            "stateTransformation": {
+              "type": "reroll_all_mods",
+              "rarity": "rare"
+            }
+          }
+        ]
+      },
+      "prerequisites": {
+        "requiredState": {
+          "minRarity": "normal"
+        },
+        "blockedBy": []
+      }
+    },
+    {
+      "actionId": "exalted_orb",
+      "actionType": "currency",
+      "name": "Exalted Orb",
+      "description": "Adds a new random modifier to a rare item",
+      "cost": 150.0,
+      "effects": {
+        "deterministic": false,
+        "outcomes": [
+          {
+            "probability": 1.0,
+            "stateTransformation": {
+              "type": "add_random_mod",
+              "modifierPool": "all"
+            }
+          }
+        ]
+      },
+      "prerequisites": {
+        "requiredState": {
+          "rarity": "rare",
+          "maxModifiers": 5
+        },
+        "blockedBy": []
+      }
+    },
+    {
+      "actionId": "regal_orb",
+      "actionType": "currency",
+      "name": "Regal Orb",
+      "description": "Upgrades a magic item to rare and adds a random modifier",
+      "cost": 5.0,
+      "effects": {
+        "deterministic": false,
+        "outcomes": [
+          {
+            "probability": 1.0,
+            "stateTransformation": {
+              "type": "upgrade_to_rare",
+              "addMod": true
+            }
+          }
+        ]
+      },
+      "prerequisites": {
+        "requiredState": {
+          "rarity": "magic"
+        },
+        "blockedBy": []
+      }
+    },
+    {
+      "actionId": "alchemy_orb",
+      "actionType": "currency",
+      "name": "Orb of Alchemy",
+      "description": "Upgrades a normal item to rare with random modifiers",
+      "cost": 2.0,
+      "effects": {
+        "deterministic": false,
+        "outcomes": [
+          {
+            "probability": 1.0,
+            "stateTransformation": {
+              "type": "upgrade_to_rare",
+              "addMods": "4-6"
+            }
+          }
+        ]
+      },
+      "prerequisites": {
+        "requiredState": {
+          "rarity": "normal"
+        },
+        "blockedBy": []
+      }
+    },
+    {
+      "actionId": "scouring_orb",
+      "actionType": "currency",
+      "name": "Orb of Scouring",
+      "description": "Removes all modifiers from an item",
+      "cost": 1.0,
+      "effects": {
+        "deterministic": true,
+        "outcomes": [
+          {
+            "probability": 1.0,
+            "stateTransformation": {
+              "type": "remove_all_mods",
+              "setRarity": "normal"
+            }
+          }
+        ]
+      },
+      "prerequisites": {
+        "requiredState": {},
+        "blockedBy": []
+      }
+    },
+    {
+      "actionId": "annulment_orb",
+      "actionType": "currency",
+      "name": "Orb of Annulment",
+      "description": "Removes a random modifier from an item",
+      "cost": 20.0,
+      "effects": {
+        "deterministic": false,
+        "outcomes": [
+          {
+            "probability": 1.0,
+            "stateTransformation": {
+              "type": "remove_random_mod"
+            }
+          }
+        ]
+      },
+      "prerequisites": {
+        "requiredState": {
+          "minModifiers": 1
+        },
+        "blockedBy": []
+      }
+    },
+    {
+      "actionId": "augmentation_orb",
+      "actionType": "currency",
+      "name": "Orb of Augmentation",
+      "description": "Adds a random modifier to a magic item",
+      "cost": 0.1,
+      "effects": {
+        "deterministic": false,
+        "outcomes": [
+          {
+            "probability": 1.0,
+            "stateTransformation": {
+              "type": "add_random_mod",
+              "maxMods": 2
+            }
+          }
+        ]
+      },
+      "prerequisites": {
+        "requiredState": {
+          "rarity": "magic",
+          "maxModifiers": 1
+        },
+        "blockedBy": []
+      }
+    },
+    {
+      "actionId": "alteration_orb",
+      "actionType": "currency",
+      "name": "Orb of Alteration",
+      "description": "Reforges a magic item with 1-2 random modifiers",
+      "cost": 0.2,
+      "effects": {
+        "deterministic": false,
+        "outcomes": [
+          {
+            "probability": 1.0,
+            "stateTransformation": {
+              "type": "reroll_magic",
+              "modCount": "1-2"
+            }
+          }
+        ]
+      },
+      "prerequisites": {
+        "requiredState": {
+          "rarity": "magic"
+        },
+        "blockedBy": []
+      }
+    },
+    {
+      "actionId": "transmutation_orb",
+      "actionType": "currency",
+      "name": "Orb of Transmutation",
+      "description": "Upgrades a normal item to magic with 1-2 random modifiers",
+      "cost": 0.05,
+      "effects": {
+        "deterministic": false,
+        "outcomes": [
+          {
+            "probability": 1.0,
+            "stateTransformation": {
+              "type": "upgrade_to_magic",
+              "modCount": "1-2"
+            }
+          }
+        ]
+      },
+      "prerequisites": {
+        "requiredState": {
+          "rarity": "normal"
+        },
+        "blockedBy": []
+      }
+    }
+  ]
+}

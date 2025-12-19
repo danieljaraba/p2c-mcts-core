@@ -1,0 +1,113 @@
+{
+  "modifiers": [
+    {
+      "modifierId": "life_regen",
+      "name": "Life Regeneration",
+      "type": "prefix",
+      "tiers": [
+        {"tier": 1, "minValue": 50, "maxValue": 70, "weight": 100, "itemLevel": 1},
+        {"tier": 2, "minValue": 71, "maxValue": 100, "weight": 80, "itemLevel": 30},
+        {"tier": 3, "minValue": 101, "maxValue": 140, "weight": 60, "itemLevel": 60},
+        {"tier": 4, "minValue": 141, "maxValue": 180, "weight": 40, "itemLevel": 75}
+      ]
+    },
+    {
+      "modifierId": "crit_chance",
+      "name": "Critical Strike Chance",
+      "type": "suffix",
+      "tiers": [
+        {"tier": 1, "minValue": 10, "maxValue": 20, "weight": 100, "itemLevel": 1},
+        {"tier": 2, "minValue": 21, "maxValue": 35, "weight": 80, "itemLevel": 30},
+        {"tier": 3, "minValue": 36, "maxValue": 50, "weight": 60, "itemLevel": 60}
+      ]
+    },
+    {
+      "modifierId": "max_life",
+      "name": "Maximum Life",
+      "type": "prefix",
+      "tiers": [
+        {"tier": 1, "minValue": 20, "maxValue": 30, "weight": 100, "itemLevel": 1},
+        {"tier": 2, "minValue": 31, "maxValue": 50, "weight": 90, "itemLevel": 20},
+        {"tier": 3, "minValue": 51, "maxValue": 70, "weight": 80, "itemLevel": 40},
+        {"tier": 4, "minValue": 71, "maxValue": 90, "weight": 70, "itemLevel": 60},
+        {"tier": 5, "minValue": 91, "maxValue": 120, "weight": 50, "itemLevel": 75}
+      ]
+    },
+    {
+      "modifierId": "fire_resistance",
+      "name": "Fire Resistance",
+      "type": "suffix",
+      "tiers": [
+        {"tier": 1, "minValue": 10, "maxValue": 15, "weight": 100, "itemLevel": 1},
+        {"tier": 2, "minValue": 16, "maxValue": 25, "weight": 90, "itemLevel": 20},
+        {"tier": 3, "minValue": 26, "maxValue": 35, "weight": 80, "itemLevel": 40},
+        {"tier": 4, "minValue": 36, "maxValue": 45, "weight": 60, "itemLevel": 60}
+      ]
+    },
+    {
+      "modifierId": "cold_resistance",
+      "name": "Cold Resistance",
+      "type": "suffix",
+      "tiers": [
+        {"tier": 1, "minValue": 10, "maxValue": 15, "weight": 100, "itemLevel": 1},
+        {"tier": 2, "minValue": 16, "maxValue": 25, "weight": 90, "itemLevel": 20},
+        {"tier": 3, "minValue": 26, "maxValue": 35, "weight": 80, "itemLevel": 40},
+        {"tier": 4, "minValue": 36, "maxValue": 45, "weight": 60, "itemLevel": 60}
+      ]
+    },
+    {
+      "modifierId": "lightning_resistance",
+      "name": "Lightning Resistance",
+      "type": "suffix",
+      "tiers": [
+        {"tier": 1, "minValue": 10, "maxValue": 15, "weight": 100, "itemLevel": 1},
+        {"tier": 2, "minValue": 16, "maxValue": 25, "weight": 90, "itemLevel": 20},
+        {"tier": 3, "minValue": 26, "maxValue": 35, "weight": 80, "itemLevel": 40},
+        {"tier": 4, "minValue": 36, "maxValue": 45, "weight": 60, "itemLevel": 60}
+      ]
+    },
+    {
+      "modifierId": "physical_damage",
+      "name": "Physical Damage",
+      "type": "prefix",
+      "tiers": [
+        {"tier": 1, "minValue": 5, "maxValue": 10, "weight": 100, "itemLevel": 1},
+        {"tier": 2, "minValue": 11, "maxValue": 20, "weight": 90, "itemLevel": 25},
+        {"tier": 3, "minValue": 21, "maxValue": 35, "weight": 70, "itemLevel": 50},
+        {"tier": 4, "minValue": 36, "maxValue": 50, "weight": 50, "itemLevel": 70}
+      ]
+    },
+    {
+      "modifierId": "attack_speed",
+      "name": "Attack Speed",
+      "type": "suffix",
+      "tiers": [
+        {"tier": 1, "minValue": 5, "maxValue": 8, "weight": 100, "itemLevel": 1},
+        {"tier": 2, "minValue": 9, "maxValue": 12, "weight": 80, "itemLevel": 30},
+        {"tier": 3, "minValue": 13, "maxValue": 16, "weight": 60, "itemLevel": 60}
+      ]
+    },
+    {
+      "modifierId": "energy_shield",
+      "name": "Energy Shield",
+      "type": "prefix",
+      "tiers": [
+        {"tier": 1, "minValue": 10, "maxValue": 20, "weight": 100, "itemLevel": 1},
+        {"tier": 2, "minValue": 21, "maxValue": 35, "weight": 90, "itemLevel": 25},
+        {"tier": 3, "minValue": 36, "maxValue": 50, "weight": 75, "itemLevel": 50},
+        {"tier": 4, "minValue": 51, "maxValue": 70, "weight": 60, "itemLevel": 70}
+      ]
+    },
+    {
+      "modifierId": "armour",
+      "name": "Armour",
+      "type": "prefix",
+      "tiers": [
+        {"tier": 1, "minValue": 20, "maxValue": 40, "weight": 100, "itemLevel": 1},
+        {"tier": 2, "minValue": 41, "maxValue": 70, "weight": 90, "itemLevel": 25},
+        {"tier": 3, "minValue": 71, "maxValue": 100, "weight": 75, "itemLevel": 50},
+        {"tier": 4, "minValue": 101, "maxValue": 140, "weight": 60, "itemLevel": 70}
+      ]
+    }
+  ]
+}

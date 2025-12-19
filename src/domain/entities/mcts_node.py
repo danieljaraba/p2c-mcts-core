@@ -1,22 +1,33 @@
 """Monte Carlo Tree Search node entity."""
 import math
 from dataclasses import dataclass, field
-from typing import List, Optional
+from typing import Any, List, Optional, Union
 
-from src.domain.entities.mdp import Action, State
+# Support both old MDP and new crafting domain
+try:
+    from src.domain.entities.mdp import Action as MDPAction, State as MDPState
+except ImportError:
+    MDPAction = None
+    MDPState = None
+
+try:
+    from src.domain.entities.crafting import CraftingAction, ItemState
+except ImportError:
+    CraftingAction = None
+    ItemState = None
 
 
 @dataclass
 class MCTSNode:
     """Represents a node in the MCTS tree."""
 
-    state: State
+    state: Any  # Can be State (MDP) or ItemState (Crafting)
     parent: Optional["MCTSNode"] = None
-    action: Optional[Action] = None
+    action: Any = None  # Can be Action (MDP) or CraftingAction (Crafting)
     children: List["MCTSNode"] = field(default_factory=list)
     visits: int = 0
     value: float = 0.0
-    untried_actions: List[Action] = field(default_factory=list)
+    untried_actions: List[Any] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         """Initialize untried actions if not provided."""
@@ -29,7 +40,10 @@ class MCTSNode:
 
     def is_terminal(self) -> bool:
         """Check if this node represents a terminal state."""
-        return self.state.is_terminal
+        # Check if state has is_terminal attribute
+        if hasattr(self.state, 'is_terminal'):
+            return self.state.is_terminal
+        return False
 
     def best_child(self, exploration_weight: float = 1.41) -> Optional["MCTSNode"]:
         """
@@ -64,7 +78,7 @@ class MCTSNode:
 
         return best_child
 
-    def add_child(self, state: State, action: Action) -> "MCTSNode":
+    def add_child(self, state: Any, action: Any) -> "MCTSNode":
         """Add a child node to this node."""
         child = MCTSNode(state=state, parent=self, action=action)
         self.children.append(child)
