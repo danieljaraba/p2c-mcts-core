@@ -31,7 +31,31 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+Verify every item below. A single unchecked item is a **merge blocker**.
+
+**Hexagonal Architecture**
+- [ ] Domain core (`src/core/`) contains zero direct imports of infrastructure libraries
+- [ ] Every external dependency is accessed through a port defined in `src/ports/`
+- [ ] Inbound adapters delegate to use cases; no business logic inside adapters
+
+**SOLID Principles**
+- [ ] Each new class/module has a single, clearly stated responsibility (SRP)
+- [ ] New behavior introduced via extension, not modification of existing logic (OCP)
+- [ ] All port interface implementations are fully substitutable without altering correctness (LSP)
+- [ ] All port interfaces are narrow and role-specific; no forced unused-method dependencies (ISP)
+- [ ] Use-case classes receive adapters via dependency injection; no `ConcreteAdapter()`
+      instantiated inside `src/core/` (DIP)
+
+**Design Patterns**
+- [ ] Every applied design pattern is documented with an inline comment or ADR reference
+
+**English-Only**
+- [ ] All code, comments, docstrings, commit messages, and PR descriptions are in English
+
+**Clean Code**
+- [ ] Domain-core test coverage is ≥ 80%
+- [ ] No dead code; no commented-out blocks committed
+- [ ] All identifiers are descriptive; no unexplained abbreviations
 
 ## Project Structure
 
