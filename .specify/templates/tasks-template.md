@@ -25,6 +25,24 @@ description: "Task list template for feature implementation"
 - **Mobile**: `api/src/`, `ios/src/` or `android/src/`
 - Paths shown below assume single project - adjust based on plan.md structure
 
+## Hexagonal Architecture Layer Conventions
+
+Tasks MUST respect the layering enforced by the project constitution:
+
+| Layer | Path | Allowed imports |
+|-------|------|-----------------|
+| Domain core (entities, use cases, domain services) | `src/core/` | Python stdlib, domain types only |
+| Port interfaces (abstract classes / protocols) | `src/ports/` | `src/core/` types only |
+| Inbound adapters (HTTP, CLI, events) | `src/adapters/inbound/` | `src/ports/`, `src/core/`, framework libs |
+| Outbound adapters (DB, cache, external APIs) | `src/adapters/outbound/` | `src/ports/`, `src/core/`, infra libs |
+| Composition root / DI wiring | `src/main.py` or `src/app.py` | All layers |
+
+Task naming convention for architecture tasks:
+- `[DOMAIN]` — entity, value object, use case, domain service, domain event
+- `[PORT]` — port interface (inbound or outbound)
+- `[ADAPTER]` — concrete adapter implementing a port
+- `[COMPOSE]` — dependency injection / wiring at composition root
+
 <!-- 
   ============================================================================
   IMPORTANT: The tasks below are SAMPLE TASKS for illustration purposes only.
